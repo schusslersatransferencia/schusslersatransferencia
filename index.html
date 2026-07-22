@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="format-detection" content="telephone=no">
+
+  <title>Datos de Transferencia</title>
+  <link rel="icon" href="logo3.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #f8fafc;
+      color: #1e293b;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+      overflow-x: hidden;
+    }
+
+    .wrapper { width: 100%; max-width: 480px; position: relative; }
+
+    .card-base {
+      background-color: #ffffff;
+      padding: 35px 28px;
+      border-radius: 24px;
+      box-shadow: 0 20px 40px -15px rgba(0, 51, 102, 0.08);
+      border: 1px solid #f1f5f9;
+      width: 100%;
+      text-align: center;
+      transition: opacity 0.25s ease, transform 0.25s ease;
+    }
+
+    .oculto { display: none !important; opacity: 0; transform: scale(0.98); }
+
+    .subtitulo-principal {
+      font-size: 1.1rem;
+      color: #003366;
+      font-weight: 700;
+      margin-bottom: 28px;
+      letter-spacing: -0.2px;
+    }
+
+    .grid-logos { display: flex; flex-direction: column; gap: 20px; }
+
+    .boton-logo {
+      background-color: #ffffff;
+      border: 2px solid #0284c7;
+      border-radius: 16px;
+      padding: 22px;
+      cursor: pointer;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 130px;
+      box-shadow: 0 10px 25px -4px rgba(2, 132, 199, 0.2);
+    }
+
+    .boton-logo:hover {
+      border-color: #0369a1;
+      background-color: #f0f9ff;
+      transform: translateY(-2px);
+    }
+
+    .logo-img {
+      max-width: 220px;
+      max-height: 65px;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      image-rendering: -webkit-optimize-contrast;
+    }
+
+    .contenedor-tarjetas {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 18px;
+      border: 1px solid #e2e8f0;
+      border-left: 4px solid #003366;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
+    }
+
+    .tarjeta {
+      background-color: #ffffff;
+      border-bottom: 1px solid #e2e8f0;
+      padding: 10px 16px;
+      text-align: left;
+    }
+
+    .tarjeta:last-child { border-bottom: none; }
+
+    .etiqueta {
+      font-size: 0.68rem;
+      color: #64748b;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      display: block;
+      margin-bottom: 2px;
+    }
+
+    .valor {
+      font-size: 0.92rem;
+      color: #0f172a;
+      font-weight: 600;
+      word-break: break-all;
+    }
+
+    .btn-copiar {
+      width: 100%;
+      background-color: #0284c7;
+      color: #ffffff;
+      border: none;
+      padding: 14px;
+      border-radius: 12px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: 0 8px 20px rgba(2, 132, 199, 0.3);
+    }
+
+    .btn-copiar:hover {
+      background-color: #0369a1;
+      transform: translateY(-2px);
+    }
+
+    .btn-volver {
+      background: none;
+      border: none;
+      color: #64748b;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 14px;
+      text-decoration: underline;
+    }
+
+    .btn-volver:hover { color: #003366; }
+
+    .mensaje {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 9999;
+      color: #ffffff;
+      background-color: rgba(15, 23, 42, 0.92);
+      backdrop-filter: blur(4px);
+      padding: 18px 28px;
+      border-radius: 16px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="wrapper">
+    <!-- PANTALLA DE SELECCIÓN -->
+    <div id="vista-seleccion" class="card-base">
+      <p class="subtitulo-principal">¿A cuál de nuestras empresas va a transferir?</p>
+      <div class="grid-logos">
+        <div class="boton-logo" onclick="verDetalle('schussler')">
+          <img src="logo3.png" alt="SCHUSSLER S.A." class="logo-img">
+        </div>
+        <div class="boton-logo" onclick="verDetalle('plasticos')">
+          <img src="logo2.png" alt="PLASTICOS CORONEL LTDA." class="logo-img">
+        </div>
+      </div>
+    </div>
+
+    <!-- PANTALLA DE DETALLE ÚNICA -->
+    <div id="vista-detalle" class="card-base oculto">
+      <div class="logo-detalle" style="margin-bottom: 16px;">
+        <img id="det-logo" src="" alt="" class="logo-img">
+      </div>
+
+      <div class="contenedor-tarjetas">
+        <div class="tarjeta"><span class="etiqueta">Razón Social:</span><span id="det-rs" class="valor"></span></div>
+        <div class="tarjeta"><span class="etiqueta">RUT:</span><span id="det-rut" class="valor"></span></div>
+        <div class="tarjeta"><span class="etiqueta">Banco:</span><span id="det-banco" class="valor"></span></div>
+        <div class="tarjeta"><span class="etiqueta">Tipo de Cuenta:</span><span id="det-tipo" class="valor"></span></div>
+        <div class="tarjeta"><span class="etiqueta">Número de Cuenta:</span><span id="det-num" class="valor"></span></div>
+        <div class="tarjeta"><span class="etiqueta">Correo:</span><span id="det-correo" class="valor"></span></div>
+      </div>
+
+      <button class="btn-copiar" onclick="copiarDatosActivos()">Copiar datos bancarios</button>
+      <br>
+      <button class="btn-volver" onclick="volverInicio()">← Volver al inicio</button>
+    </div>
+  </div>
+
+  <div id="mensaje-flotante" class="mensaje">✓ Datos copiados correctamente</div>
+
+  <script>
+    // Base de datos centralizada de las empresas
+    const empresas = {
+      schussler: {
+        logo: "logo3.png",
+        rs: "SCHUSSLER S.A.",
+        rut: "78.813.720-6",
+        banco: "Banco de Chile",
+        tipo: "Cuenta Corriente",
+        num: "225-00338-04",
+        correo: "cobranzas@schussler.cl"
+      },
+      plasticos: {
+        logo: "logo2.png",
+        rs: "PLASTICOS CORONEL LTDA.",
+        rut: "83.400.300-7",
+        banco: "BANCO SANTANDER",
+        tipo: "Cuenta Corriente",
+        num: "11-06264-4",
+        correo: "ventas@plasticoscoronel.cl"
+      }
+    };
+
+    let empresaActual = null;
+
+    function verDetalle(key) {
+      empresaActual = empresas[key];
+      
+      document.getElementById("det-logo").src = empresaActual.logo;
+      document.getElementById("det-rs").textContent = empresaActual.rs;
+      document.getElementById("det-rut").textContent = empresaActual.rut;
+      document.getElementById("det-banco").textContent = empresaActual.banco;
+      document.getElementById("det-tipo").textContent = empresaActual.tipo;
+      document.getElementById("det-num").textContent = empresaActual.num;
+      document.getElementById("det-correo").textContent = empresaActual.correo;
+
+      document.getElementById("vista-seleccion").classList.add("oculto");
+      document.getElementById("vista-detalle").classList.remove("oculto");
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function volverInicio() {
+      document.getElementById("vista-detalle").classList.add("oculto");
+      document.getElementById("vista-seleccion").classList.remove("oculto");
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function copiarDatosActivos() {
+      if (!empresaActual) return;
+
+      const textoLimpio = `${empresaActual.rs}\n${empresaActual.rut}\n${empresaActual.banco}\n${empresaActual.tipo}\n${empresaActual.num}\n${empresaActual.correo}`;
+
+      if (navigator.vibrate) navigator.vibrate(40);
+
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(textoLimpio).then(mostrarMensajeExito);
+      } else {
+        const aux = document.createElement("textarea");
+        aux.value = textoLimpio;
+        document.body.appendChild(aux);
+        aux.select();
+        try { document.execCommand("copy"); mostrarMensajeExito(); } catch(e) {}
+        document.body.removeChild(aux);
+      }
+    }
+
+    function mostrarMensajeExito() {
+      const msj = document.getElementById("mensaje-flotante");
+      if (msj) {
+        msj.style.display = "block";
+        setTimeout(() => msj.style.display = "none", 2200);
+      }
+    }
+  </script>
+
+</body>
+</html>
